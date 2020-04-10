@@ -28,14 +28,17 @@ if errorCode != sim.simx_return_ok:
 
 time.sleep(2)
 sim.simxAddStatusbarMessage(clientID, 'Connected and running', sim.simx_opmode_oneshot)
-
-sim.simxSetJointTargetVelocity(clientID, left_motor_handle, -1, sim.simx_opmode_streaming)
-time.sleep(1)
-sim.simxSetJointTargetVelocity(clientID, right_motor_handle, -1, sim.simx_opmode_streaming)
+vel = 1
+print("Forward")
+sim.simxSetJointTargetVelocity(clientID, left_motor_handle, -vel, sim.simx_opmode_streaming)
+sim.simxSetJointTargetVelocity(clientID, right_motor_handle, -vel, sim.simx_opmode_streaming)
+time.sleep(10)
+print("Left")
+sim.simxSetJointTargetVelocity(clientID, left_motor_handle, vel, sim.simx_opmode_streaming)
 time.sleep(10)
 sim.simxSetJointTargetVelocity(clientID, left_motor_handle, 0, sim.simx_opmode_streaming)
-time.sleep(1)
 sim.simxSetJointTargetVelocity(clientID, right_motor_handle, 0, sim.simx_opmode_streaming)
+print("Stop")
 
 sim.simxGetPingTime(clientID)
 
