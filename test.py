@@ -1,9 +1,10 @@
 import sys
 
-import matplotlib as mpl
-import numpy as np
+import cv2
 import sim
 import time
+import numpy as np
+import matplotlib as mpl
 
 print('Program started')
 
@@ -40,6 +41,30 @@ sim.simxSetJointTargetVelocity(clientID, left_motor_handle, 0, sim.simx_opmode_s
 sim.simxSetJointTargetVelocity(clientID, right_motor_handle, 0, sim.simx_opmode_streaming)
 print("Stop")
 
+# open cv code
+print('Vision Sensor object handling')
+res, v1 = sim.simxGetObjectHandle(clientID, 'Vision_sensor', sim.simx_opmode_oneshot_wait)
+print('Getting first image')
+err, resolution, image = sim.simxGetVisionSensorImage(clientID, v1, 0, sim.simx_opmode_streaming)
+
+
+while(sim.simxGetConnectionId(clientID) != -1):
+    err, resolution, image = sim.simxGetVisionSensorImage(clientID, v1, 0, sim.simx_opmode_buffer)
+    if err == sim.simx_return_ok:
+        print('image OK!!')
+        img = np.array(image, dtype=np.uint8)
+        img.resize([resolution[1], resolution[0], 3])
+        cv2.imshow('image', img)
+        if cv2.waitKey(1) & 0xFF == ord('q'):
+            break
+        elif err == sim.simx_return_novalue_flag:
+            print('no image yet')
+            pass
+        else:
+            print(err)
+
+
+# end
 sim.simxGetPingTime(clientID)
 
 sim.simxFinish(clientID)
