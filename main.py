@@ -58,7 +58,7 @@ def vision():
 
 def movement():
     sim.simxAddStatusbarMessage(clientID, 'Connected and running', sim.simx_opmode_oneshot)
-    vel = 1
+    vel = 10
     print("Forward")
     sim.simxSetJointTargetVelocity(clientID, left_motor_handle, -vel, sim.simx_opmode_streaming)
     sim.simxSetJointTargetVelocity(clientID, right_motor_handle, -vel, sim.simx_opmode_streaming)
@@ -71,9 +71,16 @@ def movement():
     print("Stop")
 
 def collision():
-    print("collision section")
-
-
+    errorCode, car_collision_handle = sim.simxGetCollisionHandle(clientID, 'Collision', sim.simx_opmode_oneshot_wait)
+    number_collisions = 0
+    if errorCode != sim.simx_return_ok:
+        print('Error: ', errorCode)
+    while (sim.simxGetConnectionId(clientID) != -1):
+        returnCode, collisionState = sim.simxReadCollision(clientID, car_collision_handle, sim.simx_opmode_streaming)
+        if(collisionState != 0):
+            number_collisions += 1
+            print("Collision {0} occurred".format(str(number_collisions)))
+            #sys.exit()
 
 
 
@@ -84,6 +91,7 @@ collision_thread = threading.Thread(target=collision)
 # start running threads
 movement_thread.start()
 vision_thread.start()
+collision_thread.start()
 movement_thread.join()
 
 
