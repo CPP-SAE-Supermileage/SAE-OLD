@@ -9,7 +9,7 @@ import time
 import numpy as np
 import threading
 
-#close all opened connections 116
+#close all opened connections 
 sim.simxFinish(-1)
 
 # establish connection
@@ -42,8 +42,13 @@ def vision():
             img.resize([resolution[1], resolution[0], 3])
             # image was originally upside down, turn it 180 degree
             img180 = cv2.flip(img, 0)
+
+            #convert image from bgr -> rgb
+            imgfinal = cv2.cvtColor(img180, cv2.COLOR_RGB2BGR)
+            
             # show image
-            cv2.imshow('image', img180)
+            cv2.imshow('image', imgfinal)
+            
             # press 'q' to exit
             if cv2.waitKey(1) & 0xFF == ord('q'):
                 break
