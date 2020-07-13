@@ -24,7 +24,8 @@ First, check if you have Python installed already. To do so, open a command term
 ![Image: Python screenshot](https://i.imgur.com/46VwQXF.png)
 
 If the "python" command is not recognized, that means Python is not installed. [Download and install the correct Python version for your system here.](https://www.python.org/downloads/)
-<html><font color = 'red'>IMPORTANT: </font></html> You must install the correct Python version for your system. <html><font color = 'red'>If you have a 64-bit operating system, make sure your download specifically includes "64" in the file name </font></html>. Python installation files without "64" in the file name are for 32-bit systems. Your scripts built for the simulation software will crash if you try running them with an incorrect version installed.
+
+#### IMPORTANT: You must install the correct Python version for your system. If you have a 64-bit operating system, make sure your download specifically includes "64" in the file name. Python installation files without "64" in the file name are for 32-bit systems. Your scripts built for the simulation software will crash if you try running them with an incorrect version installed.
 
 After installing Python, relaunch your command terminal and enter "python" again to verify installation.
 
